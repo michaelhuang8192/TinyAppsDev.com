@@ -15,6 +15,7 @@ var routers = {
 };
 
 var app = express();
+app.disable('etag');
 
 function startListening() {
 	app.listen(config.server_path, function () {

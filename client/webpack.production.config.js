@@ -20,18 +20,6 @@ module.exports = {
         'NODE_ENV': JSON.stringify('production')
       }
     })
-  ],
+  ]
   
-  devServer: {
-    historyApiFallback: true,
-    proxy: {
-      '/api/*': {
-        target: 'http://localhost:3000'
-        //rewrite: function(req) {
-        // req.url = req.url.replace(/^\/api/, '');
-        //}
-      }
-    }
-  }
-
 }
