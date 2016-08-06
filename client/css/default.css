@@ -1,0 +1,60 @@
+
+#searchbox {display:table;position:static;padding:8px 12px;width:240px;}
+
+.static_view {position:absolute;top:51px;left:0;right:0;bottom:0;overflow:hidden}
+.static_view >div {height:100%;}
+.static_view >div >iframe {height:100%;width:100%;border:0;margin:0;padding:0}
+
+#navbar {margin-bottom:0px}
+#navbar .navbar-brand {padding:5px 15px}
+#navbar.navbar-default {background-color:#4075ab}
+#navbar.navbar-default {background-color:#0288D1}
+#navbar.navbar-default .navbar-nav>li>a {color:white;}
+#navbar .nav >li >a {padding-left:10px;padding-right:10px}
+
+body {background-color:rgb(250, 251, 252)}
+body {background-color:#FAFAFA}
+#app {}
+#header {position:fixed;top:0;left:0;right:0;height:60px;z-index:1;background-color:#fff}
+#breadcrumb {margin-bottom:0}
+#app_body {margin-top:60px;padding-bottom:10px;z-index:0;position:relative;min-height:600px;background-color:#fff}
+#footer {min-height:100px;padding:10px;font-weight:bold;border-top:1px solid #f0f0f0;}
+
+@media (max-width:767px) {
+#searchbox {display:inline-block;position:absolute;top:0;left:90px;right:70px;width:auto}
+}
+
+
+.tinylistview {position:relative;width:100%;height:600px}
+.tinylistview >div {position:absolute;left:0;right:0;overflow:hidden}
+.tinylistview .tlv_row {position:absolute}
+.tinylistview >.tlv_scroll_containter {overflow:auto}
+.tinylistview >.tlv_header {top:0}
+.tinylistview >.tlv_footer {bottom:0}
+
+.tinylistview .tlv_item_active {background-color: #9A2F2F}
+.tinylistview .tlv_row {height:40px}
+.tinylistview >.tlv_scroll_containter {top:40px;bottom:40px}
+
+.tlv_body .tlv_row {position:absolute;left:0;right:0}
+.tlv_body .tlv_row {height:56px}
+.tlv_body {position:relative;overflow:hidden}
+
+.tlv_body .tlv_row >div {
+	white-space:nowrap;
+	font-size:16px;
+	line-height:48px;
+	padding:4px 10px 3px 10px;
+	border-bottom:1px dotted #E0E0E0;
+	background-color: #FAFAFA
+}
+.tlv_body .tlv_row >div >* {
+	margin-right:10px;
+}
+.tlv_body .tlv_row:hover >div {
+	background-color: #EEEEEE
+}
+
+.tlv_body {border-radius:16px}
+
+.docContainer {font-size:18px;}

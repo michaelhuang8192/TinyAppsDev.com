@@ -1,0 +1,15 @@
+{
+  "name": "TinyAppsDev-Server",
+  "version": "1.0.0",
+  "description": "TinyAppsDev Server Side",
+  "main": "index.js",
+  "scripts": {
+    "test": ""
+  },
+  "author": "Michael Huang",
+  "dependencies": {
+    "express": "^4.13.4",
+    "html-to-text": "^2.1.0",
+    "mongodb": "^2.1.21"
+  }
+}
