@@ -16,14 +16,12 @@ adapter.getView = function(position) {
 			<div>
 				<div><img src="loading.gif" alt="" /></div>
 				<div></div>
-				<div></div>
 			</div>
 		);
 	} else {
 		return (
 			<div>
 				<div><img src={item.imageSrc} alt="" /></div>
-				<div>{item.cate}</div>
 				<div>{item.name}</div>
 			</div>
 		);
