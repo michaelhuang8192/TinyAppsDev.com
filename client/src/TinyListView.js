@@ -243,13 +243,16 @@ var ListViewBody = React.createClass({
 
 	_onScroll: function() {
 		if(this.scrollDelay !== null) {
-			clearTimeout(this.scrollDelay);
-			this.scrollDelay = null;
+			return;
+			//clearTimeout(this.scrollDelay);
+			//this.scrollDelay = null;
 		}
 
 		var _this = this;
 		this.scrollDelay = setTimeout(function() {
 			//console.log("_onScroll");
+			_this.scrollDelay = null;
+			
 			var virtualView = _this._getVirtualView();
 			if(virtualView == null) return;
 			if(virtualView.startPos != _this.state.startPos
