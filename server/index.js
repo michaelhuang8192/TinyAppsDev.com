@@ -40,9 +40,20 @@ MongoClient.connect(config.db_url, function(err, db) {
 	
 });
 
+function end(chunk, encoding, callback) {
+	console.log(">>>");
+
+	this.set('ms', new Date().getTime() - this.startTs);
+	this.__proto__.end.call(this, chunk, encoding, callback);
+}
 
 //request counter
 app.use(function(req, res, next) {
+
+	res.startTs = new Date().getTime();
+	if(!res.hasOwnProperty('end')) {
+		res.end = end;
+	}
 
 	app.locals.numReqs++;
 	res.on('close', function() {
