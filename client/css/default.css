@@ -15,9 +15,9 @@
 body {background-color:rgb(250, 251, 252)}
 body {background-color:#FAFAFA}
 #app {}
-#header {position:fixed;top:0;left:0;right:0;height:60px;z-index:1;background-color:#fff}
+#header {position:fixed;top:0;left:0;right:0;height:52px;z-index:1;background-color:#fff}
 #breadcrumb {margin-bottom:0}
-#app_body {margin-top:60px;padding-bottom:10px;z-index:0;position:relative;min-height:600px;background-color:#fff}
+#app_body {margin-top:52px;padding-top:8px;padding-bottom:10px;z-index:0;min-height:600px;background-color:#fff}
 #footer {min-height:100px;padding:10px;font-weight:bold;border-top:1px solid #f0f0f0;}
 
 @media (max-width:767px) {
