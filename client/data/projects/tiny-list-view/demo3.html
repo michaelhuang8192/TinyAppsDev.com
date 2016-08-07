@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Tiny List View Demo</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"/>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+
+<link rel="stylesheet" href="TinyListView.css?v=123" />
+<script src="demo3_dist.js"></script>
+
+<style>
+.tinylistview {position:absolute;top:0;bottom:0;left:0;right:0;height:auto;width:auto;}
+.tlv_row {background-color: #FAFAFA; white-space:nowrap;}
+.tlv_body >.tlv_row:hover {background-color: #EEEEEE}
+
+.tlv_row >div {height:100%;font-size:18px;line-height:48px;padding:4px 10px;}
+.tlv_header, .tlv_footer {background-color:#FFB74D}
+
+.tlv_row >div >div {display:inline-block;width:160px;height:100%;vertical-align:top;}
+.tlv_row >div >div:nth-child(3) {width:200px;text-overflow: ellipsis;overflow:hidden;}
+
+.tlv_body >.tlv_row {height:161px;border-bottom:1px dotted #E0E0E0}
+.tlv_body >.tlv_row >div {line-height:152px}
+.tlv_body >.tlv_row >div >div >img {max-height:152px;border:none;vertical-align:top}
+
+
+</style>
+
+</head>
+
+<body><div id="app"></div></body>
+
+</html>
