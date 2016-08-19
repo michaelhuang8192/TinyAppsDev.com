@@ -6,7 +6,7 @@ var gRouter = mExpress.Router();
 
 gRouter.get('/getSysVersion', function(req, res, next) {
 
-	mFs.readFile('/proc/version', function(err, data) {
+	mFs.readFile('/proc/version', {encoding: 'utf8'}, function(err, data) {
 		res.json({err: err, data: data});
 	});
 
