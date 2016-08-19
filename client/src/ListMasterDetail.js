@@ -92,7 +92,7 @@ var ListMaster = React.createClass({
 		var isMaster = this._isMaster();
 
 		return (
-		<div>
+		<div className="miniHeightProtected">
 			<div key="master" style={{display: isMaster ? 'block' : 'none'}}>
 				{this.props.header}
 				<ListViewBody

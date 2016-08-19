@@ -35,7 +35,7 @@ router.get('/getPage', function(req, res, next) {
 
 });
 
-router.get('/getItem', function(req, res) {
+router.get('/getItem', function(req, res, next) {
 	var id = req.query.id;
 	if(id == 'NEW') {
 		res.json({_id: 0, link: "NEW", title: "new"});

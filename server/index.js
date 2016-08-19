@@ -11,7 +11,9 @@ var routers = {
 	TechnicalDocs: require('./TechnicalDocs'),
 	Samples: require('./Samples'),
 	Search: require('./Search'),
-	Admin: require('./Admin')
+	Docs: require('./Docs'),
+	Admin: require('./Admin'),
+	Sys: require('./Sys')
 };
 
 var app = express();
@@ -41,7 +43,7 @@ MongoClient.connect(config.db_url, function(err, db) {
 });
 
 function end(chunk, encoding, callback) {
-	console.log(">>>");
+	//console.log(">>>");
 
 	this.set('ms', new Date().getTime() - this.startTs);
 	this.__proto__.end.call(this, chunk, encoding, callback);
@@ -69,5 +71,6 @@ app.use('/api/Projects', routers.Projects);
 app.use('/api/TechnicalDocs', routers.TechnicalDocs);
 app.use('/api/Samples', routers.Samples);
 app.use('/api/Search', routers.Search);
+app.use('/api/Docs', routers.Docs);
 app.use('/api/Admin', routers.Admin);
-
+app.use('/api/Sys', routers.Sys);

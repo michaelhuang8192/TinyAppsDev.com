@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var utils = require('./Utils');
-var htmlToText = require('html-to-text');
+//var mMarked = require('marked');
 var mCookieParser = require('cookie-parser');
 var mConfig = require('./config');
 var mCrypto = require('crypto');
@@ -11,6 +11,7 @@ var tableNames = {
 Project: 'Projects',
 TechnicalDoc: 'TechnicalDocs',
 Sample: 'Samples',
+CMS: 'CMS'
 };
 
 
@@ -100,7 +101,7 @@ function POST_new(req, res, next) {
 	utils.fetchJSON(req)
 	.then(function(_doc) {
 		doc = _doc;
-
+		
 		var link = (doc.link || "").trim().toLowerCase();
 		if(!link || link == 'new') {
 			throw "invalid link!";
@@ -118,13 +119,15 @@ function POST_new(req, res, next) {
 		return db.collection(tableName).insertOne(doc);
 
 	}).then(function(r) {
+		if(tableName == 'CMS') return r;
+
 		var search_doc = {
 			_id: doc._id,
 			type: type,
 			link: doc.link,
 			title: doc.title,
 			keywords: doc.keywords,
-			content: doc.html ? htmlToText.fromString(doc.html) : null
+			content: doc.text
 		};
 		return db.collection('Search').insertOne(search_doc);
 
@@ -170,6 +173,8 @@ function POST_update(req, res, next) {
 	}).then(function(r) {
 		result = r;
 		if(r.modifiedCount > 0) {
+			if(tableName == 'CMS') return r;
+
 			var search_doc = {};
 			if(doc.hasOwnProperty("title"))
 				search_doc.title = doc.title;
@@ -177,8 +182,8 @@ function POST_update(req, res, next) {
 				search_doc.link = doc.link;
 			if(doc.hasOwnProperty("keywords"))
 				search_doc.keywords = doc.keywords;
-			if(doc.hasOwnProperty("html"))
-				search_doc.content = htmlToText.fromString(doc.html);
+			if(doc.hasOwnProperty("text"))
+				search_doc.content = doc.text;
 			
 			return db.collection('Search').updateOne(filter, {$set: search_doc});
 		} else {
@@ -218,9 +223,10 @@ function POST_delete(req, res, next) {
 
 	}).then(function(r) {
 		result = r;
-		if(r.deletedCount > 0)
+		if(r.deletedCount > 0) {
+			if(tableName == 'CMS') return r;
 			return db.collection('Search').deleteOne(filter);
-		else
+		} else
 			return r;
 	}).then(function(r) {
 		res.json({ok: result.deletedCount > 0 && r.deletedCount > 0});

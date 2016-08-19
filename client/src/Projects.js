@@ -48,6 +48,8 @@ function getDetailAjax(id) {
 }
 
 var Form = React.createClass({
+	editor_: null,
+
 	componentWillMount: function() {
 		this.setState(this.props.doc || {});
 	},
@@ -67,15 +69,18 @@ var Form = React.createClass({
 		var link = this.state.link;
 		if($.trim(link.toLowerCase()) == 'new') return;
 
+		var data = $.extend({}, this.state);
+		data.html = this.editor_ ? this.editor_.markdown(this.state.text) : null;
+
 		if(this.state._id) {
-			$.post("/api/Admin/update/Project", {js: JSON.stringify(this.state)}, function(r) {
+			$.post("/api/Admin/update/Project", {js: JSON.stringify(data)}, function(r) {
 				if(r.ok) {
 					adapter.refresh();
 				}
 			});
 
 		} else {
-			$.post("/api/Admin/new/Project", {js: JSON.stringify(this.state)}, function(r) {
+			$.post("/api/Admin/new/Project", {js: JSON.stringify(data)}, function(r) {
 				if(r.id) {
 					adapter.refresh();
 					browserHistory.push('/web/projects/' + link);
@@ -114,7 +119,7 @@ var Form = React.createClass({
 				</fieldset>
 				<fieldset className="form-group form-group-lg">
 					<label>HTML</label>
-					<textarea style={{height:"300px"}} className="form-control" data-pname="html" value={this.state.html||""} onChange={this.handleChange} />
+					<textarea ref="content" style={{height:"300px"}} className="form-control" data-pname="text" value={this.state.text||""} onChange={this.handleChange} />
 				</fieldset>
 
 				<div className="btn-group btn-group-justified btn-group-lg" role="group">
@@ -125,6 +130,35 @@ var Form = React.createClass({
 
 			</form>
 		);
+	},
+
+	initEditor() {
+		if(this.refs['content'] == undefined) return;
+		
+		this.editor_ = new SimpleMDE({
+			element: this.refs['content']
+		});
+		var this_ = this;
+		this.editor_.codemirror.on("change", function() {
+			this_.setState({text: this_.editor_.value()});
+		});
+	},
+
+	componentDidUpdate() {
+		if(this.editor_ != undefined && this.state.text != this.editor_.value()) {
+			this.editor_.value(this.state.text);
+		}
+	},
+
+	componentDidMount() {
+		if(window.SimpleMDE == undefined) {
+			var initEditor = this.initEditor;
+			$.getScript("/lib/simplemde/simplemde.min.js", function() {
+				initEditor();
+			});
+		} else {
+			this.initEditor();
+		}
 	}
 });
 

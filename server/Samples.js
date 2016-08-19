@@ -36,7 +36,7 @@ router.get('/getPage', function(req, res, next) {
 
 });
 
-router.get('/getItem', function(req, res) {
+router.get('/getItem', function(req, res, next) {
 	var id = req.query.id;
 	if(id == 'NEW') {
 		res.json({_id: 0, link: "NEW", title: "new"});
@@ -61,7 +61,7 @@ router.get('/getItem', function(req, res) {
 
 
 var g_AF_demoJson = undefined;
-router.get('/getAFDemo', (req, res) => {
+router.get('/getAFDemo', (req, res, next) => {
 	var p = new Promise((resolve, reject) => {
 		if(g_AF_demoJson === undefined) {
 			fs.readFile("./sample/af.json", (err, data) => {

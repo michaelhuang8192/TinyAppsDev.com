@@ -1,14 +1,15 @@
 import { Link } from 'react-router'
 import React  from 'react'
-
-
+import {CMS}  from './ReactModules'
 
 export default React.createClass({
-	componentWillMount: function() {
+    componentWillMount: function() {
 		$(window).scrollTop(0);
 	},
-	
+
 	render: function() {
-    	return <div className="container"><h1 className="text-center">Coming Soon</h1></div>
+    	return (
+            <CMS link="/api/Docs/getCmsItem?link=about-me" />
+    	);
     }
 })

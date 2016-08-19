@@ -50,7 +50,7 @@ export default React.createClass({
         <li><Link activeClassName="active" to="/web/projects" data-toggle="collapse" data-target="#navbar_menu.in">My Projects</Link></li>
         <li><Link activeClassName="active" to="/web/technical-docs" data-toggle="collapse" data-target="#navbar_menu.in">Technical Docs</Link></li>
         <li><Link activeClassName="active" to="/web/samples" data-toggle="collapse" data-target="#navbar_menu.in">Samples</Link></li>
-        <li><Link activeClassName="active" to="/web/about-me" data-toggle="collapse" data-target="#navbar_menu.in">About Me</Link></li>
+        <li><Link activeClassName="active" to="/web/about-me" data-toggle="collapse" data-target="#navbar_menu.in">About</Link></li>
       </ul>
     </div>
   </div>

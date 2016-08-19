@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<link rel="stylesheet" type="text/css" href="/lib/bootstrap/css/bootstrap.min.css">
+<script src="/js/jquery-2.2.3.min.js"></script>
+<script src="/js/promise-7.0.4.min.js"></script>
+<style>
+
+#app {padding:10px}
+#app >div {white-space: pre-wrap;border-top:1px solid #F5F5F5;padding:4px;font-size:18px}
+#app >div:nth-child(1) {border-top:none;}
+
+#app >div.statement {font-weight:bold;color:#0288D1}
+#app >div.error {color:#D32F2F}
+#app >div.result {color:#689F38}
+
+</style>
+
+<script>
+
+_console = console;
+console = {
+	log: function() {
+		var s = [];
+		for(var i = 0; i < arguments.length; i++) {
+			s.push(String(arguments[i]));
+		}
+
+		writeConsole("log", s.join(' '));
+	}
+}
+
+function writeConsole(className, msg) {
+	gApp.append($('<div class="' + className + '"></div>').text(String(msg)));
+
+	$(window).scrollTop(gApp.outerHeight());
+}
+
+function _evalJS(js) {
+	var geval = eval;
+	var result = null;
+
+	try {
+		writeConsole("statement", "> " + js);
+		result = geval(js);
+		if(typeof result != 'object' || typeof result.then != 'function')
+			writeConsole("result", result);
+	} catch(e) {
+		writeConsole("error", e.stack);
+	}
+
+	return result;
+}
+
+function evalJS(js) {
+	setTimeout(_evalJS.bind(window, js), 0);
+}
+
+
+$(function() {
+	gApp = $('#app');
+
+	startUp();
+})
+
+function startUp() {
+	console.log("Initializing JS Console...");
+
+	_evalJS('Date()');
+
+	_evalJS('getSysVersion()')
+	.then(function() {
+		return _evalJS('tellJoke()');
+
+	}).then(function() {
+		//writeConsole("log", "Done");
+		
+	});
+	
+}
+
+//-----------------------------------
+
+function callApiAsync(cate, func, params) {
+	return new Promise(function(resolve, reject) {
+		var req = $.get('/api/' + cate + '/' + func, params, null, 'json')
+		.always(function(data, textStatus, jqXHR) {
+			if(data == req) {
+				reject(jqXHR);
+			} else {
+				resolve(data);
+			}
+		});
+	});
+}
+
+function callSysApi(func) {
+	return callApiAsync('Sys', func, {})
+	.then(function(js) {
+		if(js.err != null)
+			writeConsole("error", JSON.stringify(js.err));
+		if(js.data != null)
+			writeConsole("result", js.data);
+	}).catch(function(err) {
+		writeConsole("error", (err instanceof Error) ? err.stack : err);
+	});
+}
+
+function getSysVersion() {
+	return callSysApi('getSysVersion');
+}
+
+function tellJoke() {
+	return callSysApi('tellJoke');
+}
+
+</script>
+</head>
+<body>
+	
+<div id="app"></div>
+
+</body>
+</html>

@@ -217,6 +217,10 @@ var ListViewBody = React.createClass({
 	scrollDelay: null,
 	scrollContainer: null,
 
+	_getPosTop(body) {
+		return (this.scrollContainer[0] === window ? body.offset().top : body.position().top);
+	},
+
 	_getVirtualView: function() {
 		if(this.scrollContainer == null) return null;
 
@@ -224,7 +228,7 @@ var ListViewBody = React.createClass({
 		var body = $(this.refs['body']);
 
 		var start = Math.min(
-			Math.max(0, container.scrollTop() - body.position().top),
+			Math.max(0, container.scrollTop() - this._getPosTop(body)),
 			body.height()
 		);
 		var end = start + container.height();
@@ -233,7 +237,7 @@ var ListViewBody = React.createClass({
 		var endPos = Math.ceil(end / this.state.rowHeight);
 
 		var virtualRowsCount = Math.max(20,
-			Math.ceil(container.height() / this.state.rowHeight * 1.5)
+			Math.ceil(container.height() / this.state.rowHeight) * 2
 		);
 		if(virtualRowsCount < this.state.virtualRowsCount)
 			virtualRowsCount = this.state.virtualRowsCount;

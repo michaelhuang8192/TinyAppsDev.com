@@ -4,8 +4,11 @@
   "description": "TinyAppsDev Client Side",
   "repository": "",
   "scripts": {
-    "start": "webpack-dev-server --inline --content-base .",
-    "build": "webpack -p --config webpack.production.config.js"
+    "start": "webpack-dev-server --config front.dev.js --inline --content-base .",
+    "build": "webpack -p --config front.prod.js",
+
+    "start_admin": "webpack-dev-server --port 8081 --config admin.dev.js --inline --content-base .",
+    "build_admin": "webpack -p --config admin.prod.js"
   },
   "author": "Michael Huang",
   "dependencies": {
