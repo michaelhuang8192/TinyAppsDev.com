@@ -26,12 +26,12 @@ gRouter.get('/tellJoke', function(req, res, next) {
 
 	}).then(function(count) {
 		if(!count) return [];
-		
+
 		cursor = collection.find({}).skip(Math.floor(Math.random() * count)).limit(1);
 		return cursor.toArray();
 
 	}).then(function(doc) {
-		res.json(doc.length > 0 ? doc[0] : null);
+		res.json({data: doc.length > 0 ? doc[0] : null});
 
 	}).catch(function(err) {
 		next(err);

@@ -11,6 +11,8 @@
 #navbar.navbar-default {background-color:#0288D1}
 #navbar.navbar-default .navbar-nav>li>a {color:white;}
 #navbar .nav >li >a {padding-left:10px;padding-right:10px}
+#navbar .navbar-toggle .icon-bar {background-color:#fff}
+#navbar .navbar-toggle:hover, #navbar .navbar-toggle:focus {background-color:#43A047}
 
 body {background-color:rgb(250, 251, 252)}
 body {background-color:#FAFAFA}
