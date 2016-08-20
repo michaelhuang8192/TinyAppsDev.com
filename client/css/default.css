@@ -62,7 +62,7 @@ body {background-color:#FAFAFA}
 
 .tlv_body {border-radius:16px}
 
-.docContainer {position:relative;z-index:1}
+.docContainer {position:relative;z-index:1;overflow-x:hidden}
 .docContainer img {max-width:100%}
 
 #console >iframe {display: none;}

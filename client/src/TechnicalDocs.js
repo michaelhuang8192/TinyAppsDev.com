@@ -192,10 +192,12 @@ function renderView(ctx) {
 			<div className="container clearfix" style={{display: visible, marginBottom: "10px"}}>
 				<Link className="btn btn-default pull-right" to={editLink()}>Edit</Link>
 			</div>
-			<h3 className="text-center">
-				{state.doc ? state.doc.title : 'Loading...'}
-			</h3>
-			<div key="view" dangerouslySetInnerHTML={{__html: state.doc && state.doc.html}}></div>
+			<div className="page-header">
+				<h3 className="text-center">
+					{state.doc ? state.doc.title : 'Loading...'}
+				</h3>
+			</div>
+			<div className="docContainer" key="view" dangerouslySetInnerHTML={{__html: state.doc && state.doc.html}}></div>
 		</div>
 	);
 }
