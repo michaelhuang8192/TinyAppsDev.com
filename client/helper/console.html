@@ -46,8 +46,8 @@ function anyToString(any) {
 function writeConsole(type, msg) {
 	msg = anyToString(msg);
 
-	if(window.parent && window.parent.writeConsole) {
-		window.parent.writeConsole(type, msg);
+	if(window.parent && window.parent._writeConsole) {
+		window.parent._writeConsole(type, msg);
 
 	} else {
 		gApp.append($('<div class="' + type + '"></div>').text(msg));

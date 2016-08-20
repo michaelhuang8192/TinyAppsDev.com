@@ -80,12 +80,12 @@ export default React.createClass({
     },
 
     componentDidMount() {
-        window.writeConsole = this.writeConsole;
+        window._writeConsole = this.writeConsole;
         $('#footer').hide();
     },
 
     componentWillUnmount() {
-        delete window.writeConsole;
+        delete window._writeConsole;
         $('#footer').show();
     }
 
