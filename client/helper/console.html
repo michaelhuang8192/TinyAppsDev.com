@@ -23,17 +23,37 @@ console = {
 	log: function() {
 		var s = [];
 		for(var i = 0; i < arguments.length; i++) {
-			s.push(String(arguments[i]));
+			s.push(anyToString(arguments[i]));
 		}
 
 		writeConsole("log", s.join(' '));
 	}
 }
 
-function writeConsole(className, msg) {
-	gApp.append($('<div class="' + className + '"></div>').text(String(msg)));
+function anyToString(any) {
+	var s;
+	if(typeof any == 'object') {
+		try {
+			return JSON.stringify(any, undefined, 4);
+		} catch (e) {
 
-	$(window).scrollTop(gApp.outerHeight());
+		}
+	}
+
+	return String(any);
+}
+
+function writeConsole(type, msg) {
+	msg = anyToString(msg);
+
+	if(window.parent && window.parent.writeConsole) {
+		window.parent.writeConsole(type, msg);
+
+	} else {
+		gApp.append($('<div class="' + type + '"></div>').text(msg));
+		$(window).scrollTop(gApp.outerHeight());
+		
+	}
 }
 
 function _evalJS(js) {
@@ -74,7 +94,7 @@ function startUp() {
 
 	}).then(function() {
 		//writeConsole("log", "Done");
-		
+
 	});
 	
 }
@@ -98,7 +118,7 @@ function callSysApi(func) {
 	return callApiAsync('Sys', func, {})
 	.then(function(js) {
 		if(js.err != null)
-			writeConsole("error", JSON.stringify(js.err));
+			writeConsole("error", js.err);
 		if(js.data != null)
 			writeConsole("result", js.data);
 	}).catch(function(err) {

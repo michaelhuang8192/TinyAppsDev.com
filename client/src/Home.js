@@ -16,7 +16,7 @@ export default React.createClass({
 	},
 	
     evalJS(js) {
-        var contentWindow = this.refs['consoleWnd'].contentWindow;
+        var contentWindow = this.refs['consoleCtx'].contentWindow;
         if(contentWindow && contentWindow.evalJS) {
             contentWindow.evalJS(js);
         }
@@ -61,16 +61,32 @@ export default React.createClass({
 
 	render() {
     	return (
-            <div id="console" style={{backgroundColor: "#fff"}}>
-                <div className="container">
-                    <div><iframe ref="consoleWnd" src="/helper/console.html" className="consoleWnd"></iframe></div>
+            <div id="console">
+                <div className="container-fluid consoleWnd" ref="consoleWnd"></div>
+                <div className="container-fluid consoleInput">
                     <div className="input-group input-group-lg">
                         <span className="input-group-addon" style={{backgroundColor: '#5cb85c', color: '#fff'}}>&gt;</span>
-                        <input type="text" onKeyUp={this.onKeyUp} value={this.state.statement||""} onChange={this.handleChange} className="form-control" spellcheck="false" placeholder={this._first ? "I'm MR.JS. How Can I help You?" : ""} />
+                        <input type="text" onKeyUp={this.onKeyUp} value={this.state.statement||""} onChange={this.handleChange} className="form-control" placeholder={this._first ? "I'm MR.JS. How Can I help You?" : ""} />
                     </div>
                 </div>
+                <iframe ref="consoleCtx" src="/helper/console.html"></iframe>
             </div>
         );
+    },
+
+    writeConsole(type, msg) {
+        $(this.refs['consoleWnd']).append($('<div class="' + type + '"></div>').text(String(msg)));
+        $(window).scrollTop($(document).height());
+    },
+
+    componentDidMount() {
+        window.writeConsole = this.writeConsole;
+        $('#footer').hide();
+    },
+
+    componentWillUnmount() {
+        delete window.writeConsole;
+        $('#footer').show();
     }
 
-})
+});
