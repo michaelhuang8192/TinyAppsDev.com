@@ -31,7 +31,7 @@ gRouter.get('/tellJoke', function(req, res, next) {
 		return cursor.toArray();
 
 	}).then(function(doc) {
-		res.json({data: doc.length > 0 ? doc[0] : null});
+		res.json({data: doc.length > 0 ? doc[0].content : null});
 
 	}).catch(function(err) {
 		next(err);
