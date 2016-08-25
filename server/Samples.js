@@ -66,8 +66,8 @@ router.get('/getAFDemo', (req, res, next) => {
 		if(g_AF_demoJson === undefined) {
 			fs.readFile("./sample/af.json", (err, data) => {
 				if(err) throw err;
-				
-				g_AF_demoJson = JSON.parse(data);
+				if(g_AF_demoJson === undefined)
+					g_AF_demoJson = JSON.parse(data);
 				resolve(g_AF_demoJson);
 			});
 
@@ -75,7 +75,7 @@ router.get('/getAFDemo', (req, res, next) => {
 			resolve(g_AF_demoJson);
 
 	}).then((data) => {
-		var pageIndex = parseInt(req.query.pageIndex);
+		var pageIndex = parseInt(req.query.pageIndex) || 0;
 		var pageSize = parseInt(req.query.pageSize) || 50;
 		var keys = Object.keys(data);
 
@@ -89,6 +89,52 @@ router.get('/getAFDemo', (req, res, next) => {
 		}
 
 		ret.pages[pageIndex] = docs;
+		res.json(ret);
+
+	}).catch((err) => {
+		next(err);
+	});
+
+});
+
+
+var g_WP_demoJson = undefined;
+router.get('/getWpPage', (req, res, next) => {
+	var p = new Promise((resolve, reject) => {
+		if(g_WP_demoJson === undefined) {
+			fs.readFile("./sample/wallpapers.json", (err, data) => {
+				if(err) throw err;
+				
+				if(g_WP_demoJson === undefined) {
+					var data = JSON.parse(data);
+					var keys = Object.keys(data);
+					var wp = {cates: {}, list: []};
+					var last_count = 0;
+					for(var i = 0; i < keys.length; i++) {
+						var cateData = data[keys[i]];
+						wp.list.push.apply(wp.list, cateData);
+						wp.cates[keys[i]] = {index: last_count, count: cateData.length};
+						last_count += cateData.length;
+					}
+					g_WP_demoJson = wp;
+				}
+
+				resolve(g_WP_demoJson);
+			});
+
+		} else
+			resolve(g_WP_demoJson);
+
+	}).then((data) => {
+		var pageIndex = parseInt(req.query.pageIndex) || 0;
+		var pageSize = parseInt(req.query.pageSize) || 50;
+
+		var ret = {total: data.list.length, pages: {}};
+
+		var start = pageIndex * pageSize;
+		var end = Math.min(start + pageSize, ret.total);
+
+		ret.pages[pageIndex] = data.list.slice(start, end);
 		res.json(ret);
 
 	}).catch((err) => {
