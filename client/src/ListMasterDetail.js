@@ -1,5 +1,5 @@
 import React  from 'react'
-import {ListViewBody} from './TinyListView'
+import {ListView} from './TinyListView'
 
 var ListDetail = React.createClass({
 	_ajaxRequest: null,
@@ -57,16 +57,6 @@ var ListMaster = React.createClass({
 	masterScrollTop: 0,
 	direction: 0,
 
-	_onScroll: function() {
-		if(!this._isMaster()) return;
-		this.refs['listViewBody']._onScroll();
-	},
-
-	_onResize: function() {
-		if(!this._isMaster()) return;
-		this.refs['listViewBody']._onResize();
-	},
-
 	_isMaster: function() {
 		return this.props.params.id == null;
 	},
@@ -95,11 +85,12 @@ var ListMaster = React.createClass({
 		<div className="miniHeightProtected">
 			<div key="master" style={{display: isMaster ? 'block' : 'none'}}>
 				{this.props.header}
-				<ListViewBody
+				<ListView
 					className="container"
-					ref="listViewBody"
+					ref="listView"
 					adapter={this.props.adapter}
-					shouldNotRender={!isMaster}
+					paused={!isMaster}
+					outterScroll={true}
 					/>
 			</div>
 			<div key="detail">{this.props.children}</div>
@@ -115,21 +106,11 @@ var ListMaster = React.createClass({
 			//$(window).scrollTop(0);
 
 		} else {
-			this._onScroll();
+			this.ref['listView'].updateUI();
 		}
 
 		this.direction = 0;
 	},
-
-	componentDidMount: function() {
-		$(window).on('scroll', this._onScroll).on('resize', this._onResize);
-		this.refs['listViewBody'].parentDidMount(window);
-	},
-
-	componentWillUnmount: function() {
-		$(window).off('scroll', this._onScroll).off('resize', this._onResize);
-		this.refs['listViewBody'].parentWillUnmount();
-	}
 
 });
 

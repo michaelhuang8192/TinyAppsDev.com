@@ -116,29 +116,15 @@ function getView(position) {
 
 };
 
-function getViewHeader() {
-	return <div ref="header"><div>CMS</div></div>;
-};
-
-function getViewFooter() {
-	return <Footer />;
-};
+var Header = React.createClass({
+	render() {
+		return <div className="tlv_row tlv_header"><div>CMS</div></div>;
+	}
+});
 
 var Footer = React.createClass({
-	_change() {
-		this.forceUpdate();
-	},
-
 	render() {
-		return <div ref="footer"><div>Total: {this.props.adapter.getCount()}</div></div>;
-	},
-
-	componentDidMount() {
-		this.props.adapter.registerDataSetObserver(this._change);
-	},
-
-	componentWillUnmount() {
-		this.props.adapter.unregisterDataSetObserver(this._change);
+		return <div className="tlv_row tlv_footer"><div>Total: {this.props.ctx.state.rowsCount}</div></div>;
 	}
 });
 
@@ -160,8 +146,6 @@ var App = React.createClass({
 			url: '/api/Docs/getCmsPage'
 		});
 		this._adapter.getView = getView;
-		this._adapter.getViewHeader = getViewHeader;
-		this._adapter.getViewFooter = getViewFooter;
 		this._adapter.app = this;
 	},
 
@@ -210,7 +194,7 @@ var App = React.createClass({
 	render() {
 		return (
 		<div id="mainCont" className="fluid-container">
-			<ListView adapter={this._adapter} />
+			<ListView adapter={this._adapter} Header={Header} Footer={Footer} />
 			<div className="btn-group-lg">
 				<button type="button" className="btn btn-default" onClick={this.newItem}>New</button>
 				&nbsp;

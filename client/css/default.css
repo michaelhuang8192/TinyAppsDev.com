@@ -28,22 +28,11 @@ body {background-color:#FAFAFA}
 }
 
 
-.tinylistview {position:relative;width:100%;height:600px}
-.tinylistview >div {position:absolute;left:0;right:0;overflow:hidden}
-.tinylistview .tlv_row {position:absolute}
-.tinylistview >.tlv_scroll_containter {overflow:auto}
-.tinylistview >.tlv_header {top:0}
-.tinylistview >.tlv_footer {bottom:0}
-
+.tinylistview .tlv_row {height:56px;right:0;}
 .tinylistview .tlv_item_active {background-color: #9A2F2F}
-.tinylistview .tlv_row {height:40px}
-.tinylistview >.tlv_scroll_containter {top:40px;bottom:40px}
+.tinylistview .tlv_body {position:relative;overflow:hidden}
 
-.tlv_body .tlv_row {position:absolute;left:0;right:0}
-.tlv_body .tlv_row {height:56px}
-.tlv_body {position:relative;overflow:hidden}
-
-.tlv_body .tlv_row >div {
+.tinylistview .tlv_body >.tlv_row >div {
 	white-space:nowrap;
 	font-size:16px;
 	line-height:48px;
@@ -53,14 +42,13 @@ body {background-color:#FAFAFA}
 	overflow: hidden;
     text-overflow: ellipsis;
 }
-.tlv_body .tlv_row >div >* {
+.tinylistview .tlv_body >.tlv_row >div >* {
 	margin-right:10px;
 }
-.tlv_body .tlv_row:hover >div {
+.tinylistview .tlv_body >.tlv_row:hover >div {
 	background-color: #EEEEEE
 }
-
-.tlv_body {border-radius:16px}
+.tinylistview .tlv_body {border-radius:16px}
 
 .docContainer {position:relative;z-index:1;overflow-x:hidden}
 .docContainer img {max-width:100%}
