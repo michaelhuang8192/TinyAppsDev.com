@@ -1,5 +1,5 @@
 .tinygridview {}
-.tinygridview_innerscroll {position:relative;overflow:hidden;box-sizing:border-box;}
+.tinygridview_innerscroll {position:relative;overflow:hidden;box-sizing:border-box}
 .tinygridview_innerscroll >.tgv_container {box-sizing:border-box;position:relative;overflow:auto;width:100%;height:100%;}
 
 .tinygridview >.tgv_container >.tgv_body {position:relative;}

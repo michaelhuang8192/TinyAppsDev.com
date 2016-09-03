@@ -78,6 +78,8 @@ function evalJS(js) {
 
 
 $(function() {
+	for(var x in gFunctions) window[x] = gFunctions[x];
+
 	gApp = $('#app');
 
 	startUp();
@@ -126,17 +128,24 @@ function callSysApi(func) {
 	});
 }
 
-function getSysVersion() {
-	return callSysApi('getSysVersion');
-}
+var gFunctions = {
+	help: function() {
+		return Object.keys(gFunctions).join("\n");
+	},
 
-function tellJoke() {
-	return callSysApi('tellJoke');
-}
+	getSysVersion: function () {
+		return callSysApi('getSysVersion');
+	},
 
-function help() {
-	return "tellJoke()\ngetSysVersion()\n";
-}
+	tellJoke: function() {
+		return callSysApi('tellJoke');
+	},
+
+	ip: function() {
+		return callSysApi('getIP');
+	}
+};
+
 
 </script>
 </head>

@@ -52,6 +52,7 @@ body {background-color:#FAFAFA}
 
 .docContainer {position:relative;z-index:1;overflow-x:hidden}
 .docContainer img {max-width:100%}
+.docContainer iframe {width:100%;height:500px;margin:0;padding:0;border:none}
 
 #console >iframe {display: none;}
 #console >.consoleWnd {overflow-x:hidden;margin-bottom:66px;background-color:#fff;padding-top:10px;}
