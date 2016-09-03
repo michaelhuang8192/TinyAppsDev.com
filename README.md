@@ -7,7 +7,11 @@ My Personal Website, Frontend in ReactJS, Backend in NodeJS
 
 * Fontend
 ```
-npm run build
+# develop and test
+node dev.js ./src.js ./dst.js
+
+# build and pack
+node prod.js ./src.js ./dst.js
 ```
 
 * Backend, Conf for Nginx
