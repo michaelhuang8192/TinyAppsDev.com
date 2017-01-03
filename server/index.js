@@ -13,7 +13,8 @@ var routers = {
 	Search: require('./Search'),
 	Docs: require('./Docs'),
 	Admin: require('./Admin'),
-	Sys: require('./Sys')
+	Sys: require('./Sys'),
+	Domain: require('./Domain')
 };
 
 var app = express();
@@ -31,6 +32,7 @@ MongoClient.connect(config.db_url, function(err, db) {
 	app.disable("x-powered-by");
 	app.locals.db = db;
 	app.locals.numReqs = 0;
+	app.locals.config = config;
 
 	if(typeof config.server_path == "string") {
 		fs.unlink(config.server_path, function() {
@@ -43,9 +45,8 @@ MongoClient.connect(config.db_url, function(err, db) {
 });
 
 function end(chunk, encoding, callback) {
-	//console.log(">>>");
-
-	this.set('ms', new Date().getTime() - this.startTs);
+	if(!this.headersSent)
+		this.setHeader('ms', new Date().getTime() - this.startTs);
 	this.__proto__.end.call(this, chunk, encoding, callback);
 }
 
@@ -74,3 +75,4 @@ app.use('/api/Search', routers.Search);
 app.use('/api/Docs', routers.Docs);
 app.use('/api/Admin', routers.Admin);
 app.use('/api/Sys', routers.Sys);
+app.use('/api/Domain', routers.Domain);

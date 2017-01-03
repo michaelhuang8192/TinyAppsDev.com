@@ -43,4 +43,9 @@ gRouter.get('/tellJoke', function(req, res, next) {
 
 });
 
+
+gRouter.get('/getIP', function(req, res, next) {
+	res.json({data: req.headers['x-real-ip']});
+});
+
 module.exports = gRouter;
