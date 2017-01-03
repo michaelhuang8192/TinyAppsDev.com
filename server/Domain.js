@@ -44,10 +44,11 @@ function runUpdate() {
 				return updateRecord(app.locals.config, doc._id, doc.name, doc.ip)
 				.then((result) => {
 					console.log(result.data);
-					domain.updateOne(
-						{_id: doc._id, changed: doc.changed},
-						{$set: {changed: 0}}
-					);
+					if((result.data || {}).data)
+						domain.updateOne(
+							{_id: doc._id, changed: doc.changed},
+							{$set: {changed: 0}}
+						);
 				}).catch((err) => {
 					console.log(err);
 				});
