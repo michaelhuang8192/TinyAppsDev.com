@@ -30,7 +30,7 @@ function startUpdateService(app) {
 	if(gUpdateServiceStarted) return;
 	console.log("start domain update service")
 	gUpdateServiceStarted = true;
-	setInterval(runUpdate.bind(app), 10000);
+	setInterval(runUpdate.bind(app), 60000);
 }
 
 function runUpdate() {
