@@ -61,19 +61,41 @@ function runUpdate() {
 }
 
 function updateRecord(config, _id, name, ip) {
-	return gUrl.request('https://dcc.godaddy.com/api/v3/domains/tinyappsdev.com/records?recordId=' + _id, {
-		method: 'PUT',
-		headers: Object.assign({}, config.GoDaddyApiHeader),
-		dataType: 'json',
-		content: JSON.stringify({
-			"type": "a",
-			"name": name,
-			"data": ip,
-			"ttl": 3600,
-			"status": "setup",
-			"attributeUid": _id,
-			"$edit": true,
-			"errors": {}
-		})
+	return gUrl.request('https://sso.godaddy.com/v1/?path=&app=mya&realm=idp&pc=urlargs', {
+		method: 'POST',
+		data: {
+			name: config.GoDaddy_UserName,
+			password: config.GoDaddy_UserPassword
+		},
+		dataType: "text"
+	}).then((result) => {
+
+		var cookies = {};
+		for(var cs of result.headers['set-cookie']) {
+			var ck = cs.split(';', 2)[0].trim().split('=');
+			cookies[ck[0]] = ck[1]
+		}
+
+		return cookies;
+
+	}).then((cookies) => {
+		var headers = Object.assign({}, config.GoDaddyApiHeader);
+		headers['Cookie'] = 'auth_idp=' + cookies['auth_idp=']
+		return gUrl.request('https://dcc.godaddy.com/api/v3/domains/tinyappsdev.com/records?recordId=' + _id, {
+				method: 'PUT',
+				headers: headers,
+				dataType: 'json',
+				content: JSON.stringify({
+					"type": "a",
+					"name": name,
+					"data": ip,
+					"ttl": 3600,
+					"status": "setup",
+					"attributeUid": _id,
+					"$edit": true,
+					"errors": {}
+				})
+			});
 	});
+
 }
