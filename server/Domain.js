@@ -75,6 +75,7 @@ function updateRecord(config, _id, name, ip) {
 			var ck = cs.split(';', 2)[0].trim().split('=');
 			cookies[ck[0]] = ck[1]
 		}
+		console.log(cookies)
 
 		return cookies;
 
