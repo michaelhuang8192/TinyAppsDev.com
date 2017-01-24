@@ -60,6 +60,15 @@ function runUpdate() {
 	});
 }
 
+function loadCookie(arr) {
+	var cookies = {};
+	for(var cs of arr) {
+		var ck = cs.split(';', 2)[0].trim().split('=');
+		cookies[ck[0]] = ck[1]
+	}
+	return cookies;
+}
+
 function updateRecord(config, _id, name, ip) {
 	return gUrl.request('https://sso.godaddy.com/v1/?path=&app=mya&realm=idp&pc=urlargs', {
 		method: 'POST',
@@ -69,19 +78,26 @@ function updateRecord(config, _id, name, ip) {
 		},
 		dataType: "text"
 	}).then((result) => {
+		return loadCookie(result.headers['set-cookie'])['auth_idp'];
 
-		var cookies = {};
-		for(var cs of result.headers['set-cookie']) {
-			var ck = cs.split(';', 2)[0].trim().split('=');
-			cookies[ck[0]] = ck[1]
-		}
-		console.log(cookies)
+	}).then((auth_idp) => {
+		var headers = {
+			Cookie: 'auth_idp=' + auth_idp
+		};
 
-		return cookies;
+		return gUrl.request('https://dcc.godaddy.com/manage/', {
+			headers: headers,
+			dataType: "text"
+		}).then((result) => {
+			return [auth_idp, loadCookie(result.headers['set-cookie'])['XSRF-TOKEN']];
+		});
 
-	}).then((cookies) => {
-		var headers = Object.assign({}, config.GoDaddyApiHeader);
-		headers['Cookie'] = 'auth_idp=' + cookies['auth_idp=']
+	}).then((arr) => {
+		var headers = {
+			"X-XSRF-TOKEN": arr[1],
+			'Content-Type': 'application/json',
+			Cookie: 'auth_idp=' + arr[0]
+		};
 		return gUrl.request('https://dcc.godaddy.com/api/v3/domains/tinyappsdev.com/records?recordId=' + _id, {
 				method: 'PUT',
 				headers: headers,
